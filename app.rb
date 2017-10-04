@@ -1,5 +1,8 @@
 require 'sinatra'
 require_relative 'config/application'
+require 'sinatra/activerecord'
+require 'pry'
+
 
 set :bind, '0.0.0.0'  # bind to all interfaces
 
@@ -33,5 +36,11 @@ get '/sign_out' do
 end
 
 get '/meetups' do
+  @meetups = Meetup.all
   erb :'meetups/index'
+end
+
+get '/meetups/:id' do
+  @meetup = Meetup.find_by(id: params[:id])
+  erb :'meetups/show'
 end
